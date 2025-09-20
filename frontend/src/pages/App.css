@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  justify-content: space-between;
+}
+
+.header .title-wrapper {
+  display: flex;
+  height: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.header .title-wrapper .logo-container {
+  display: flex;
+  height: auto;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.header .title-wrapper .title-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.header .title-wrapper .title-container .title {
+  margin: 0;
+}
