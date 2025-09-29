@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const request = axios.create({
   // baseURL: import.meta.env.VITE_BACKEND_PRODUCT_ENV,
-  baseURL: import.meta.env.VITE_BACKEND_DEV_ENV,
+  baseURL: import.meta.env.VITE_BACKEND_PROD_ENV,
   // withCredentials: true,
   timeout: 60000, // 60s
 })

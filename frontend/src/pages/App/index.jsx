@@ -1,15 +1,14 @@
-import { Layout, Typography, Button } from 'antd';
+import { Layout } from 'antd';
 import './index.css'
 import { Navigation, SideMenu } from '@/components';
 import { Generate } from '@/pages';
 
 const { Content } = Layout;
-const { Title } = Typography;
 
 const App = () => {
   return (
     <Layout className='P-app'>
-      <Navigation />
+      <Navigation className='navigation' />
       <Layout className='main-wrapper'>
         <SideMenu />
         <Content className='content'>

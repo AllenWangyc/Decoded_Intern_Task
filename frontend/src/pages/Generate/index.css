@@ -32,7 +32,6 @@
 
 @media (min-width: 768px) {
   .desc-container .desc {
-    width: 150%;
-    font-size: 2.2em;
+    font-size: 2.5em;
   }
 }

@@ -14,7 +14,7 @@ originList.push('http://localhost:5173');
 const corsOptions = isProd
   ? {
       origin(origin, cb) {
-        if (!origin) return cb(null, true); // 无 Origin 请求（curl）放行
+        if (!origin) return cb(null, true);
         if (originList.includes(origin)) return cb(null, true);
         return cb(new Error(`Not allowed by CORS: ${origin}`));
       },
