@@ -1,10 +1,56 @@
 import { Schema, model } from 'mongoose';
 
+const FieldSchema = new Schema(
+  {
+    name: { type: String, required: true, trim: true },          // lower_snake_case
+    label: { type: String, required: true, trim: true },         // Title Case
+    type: {
+      type: String,
+      required: true,
+      enum: ['text', 'email', 'number', 'date', 'select', 'switch', 'textarea'],
+    },
+    options: [
+      {
+        label: { type: String, trim: true },
+        value: { type: String, trim: true },
+      },
+    ],
+  },
+  { _id: false }
+);
+
 const AiParsedSchema = new Schema({
-  appName: { type: String, default: 'My App' },
-  entities: { type: [String], default: [] },
-  roles: { type: [String], default: [] },
-  features: { type: [String], default: [] },
+  appName: { 
+    type: String, 
+    default: 'My App' 
+  },
+  entities: { 
+    type: [String], 
+    default: [] 
+  },
+  roles: { 
+    type: [String], 
+    default: [] 
+  },
+  features: { 
+    type: [String], 
+    default: [] 
+  },
+  roleEntityMap: { 
+    type: Map, 
+    of: [String], 
+    default: {} 
+  },
+  featureEntityMap: { 
+    type: Map, 
+    of: [String], 
+    default: {} 
+  },
+  entityFields: {
+      type: Map,
+      of: [FieldSchema],
+      default: {},
+    },
 }, { _id: false });
 
 const RequirementSchema = new Schema({

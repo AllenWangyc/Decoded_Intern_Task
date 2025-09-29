@@ -1,0 +1,38 @@
+.P-generate {
+  background-color: #fff;
+}
+
+.desc-container {
+  margin-bottom: 4em;
+}
+
+.desc-container .desc {
+  font-size: 1.5em;
+}
+
+.left-section .input {
+  margin-bottom: 2em;
+  padding: 1em;
+  height: 20em;
+  resize: none;
+  font-size: 1.3em;
+}
+
+.left-section .btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.right-section .generation {
+  height: 20em;
+  padding-bottom: 1em;
+  font-size: 1.3em;
+  overflow: auto;
+}
+
+@media (min-width: 768px) {
+  .desc-container .desc {
+    width: 150%;
+    font-size: 2.2em;
+  }
+}

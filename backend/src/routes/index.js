@@ -1,4 +1,3 @@
-// 汇总所有路由模块，形成 /api 的单一入口
 import express from 'express';
 import { makeRequirementsRouter } from './requirements.route.js';
 // import { makeUsersRouter } from './users.routes.js';

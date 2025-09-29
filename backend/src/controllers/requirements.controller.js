@@ -10,7 +10,7 @@ export const requirementsController = {
       }
 
       const parsed = await ai.extract(description);
-
+      
       const doc = await Requirement.create({
         rawDescription: description,
         aiParsed: {
@@ -18,6 +18,9 @@ export const requirementsController = {
           entities: parsed.entities,
           roles: parsed.roles,
           features: parsed.features,
+          roleEntityMap: parsed.roleEntityMap,
+          featureEntityMap: parsed.featureEntityMap,
+          entityFields: parsed.entityFields
         },
         meta: { model: parsed._model, promptVersion: 'v1', source: 'web_form' },
       });
