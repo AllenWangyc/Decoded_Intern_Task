@@ -34,4 +34,7 @@
   .desc-container .desc {
     font-size: 2.5em;
   }
+  .btn-container {
+    margin-top: 2em;
+  }
 }

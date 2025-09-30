@@ -27,6 +27,8 @@ export const config = {
   isProd,
   PORT,
 
+  originList,
+
   // Key credentials
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   MONGO_URI: process.env.MONGO_URI,
