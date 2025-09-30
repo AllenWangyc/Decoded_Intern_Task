@@ -17,7 +17,7 @@ const Navigation = () => {
             <Title level={3} className='title'>Decoded.</Title>
           </div>
         </div>
-        <div className='button-container'>
+        {/* <div className='button-container'>
           <Button
             className='button'
             size='large'
@@ -26,7 +26,7 @@ const Navigation = () => {
           >
             Login
           </Button>
-        </div>
+        </div> */}
       </Header>
     </Layout>
   )

@@ -10,7 +10,7 @@ const App = () => {
     <Layout className='P-app'>
       <Navigation className='navigation' />
       <Layout className='main-wrapper'>
-        <SideMenu />
+        {/* <SideMenu /> */}
         <Content className='content'>
           <Generate />
         </Content>

@@ -43,11 +43,8 @@ if (config.isProd) {
   app.use(morgan('dev'));
 }
 
-app.use(cors(corsOptionsDelegate));
-// 关键：让所有预检都返回 CORS 头
-
 // CORS
-// app.use(cors(config.corsOptions));
+app.use(cors(corsOptionsDelegate));
 
 app.use(express.json());
 

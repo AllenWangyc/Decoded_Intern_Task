@@ -25,7 +25,6 @@ const Generate = () => {
     return uiSpec.featureEntityMap[selectedLabel] || [];
   }, [selectedLabel]);
 
-  // 2) 用实体名过滤出要渲染的 forms（可能多个）
   const formsToRender = useMemo(() => {
     if (!entities.length) return [];
     return uiSpec.forms.filter(f =>
