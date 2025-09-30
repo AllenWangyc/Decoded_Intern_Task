@@ -18,7 +18,8 @@ const corsOptions = isProd
         if (originList.includes(origin)) return cb(null, true);
         return cb(new Error(`Not allowed by CORS: ${origin}`));
       },
-      credentials: true,
+      // credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
     }
   : true;
 
