@@ -13,6 +13,23 @@ import { makeApiRouter } from './routes/index.js';
 
 const app = express();
 
+const allowlist = [
+  'https://decoded-intern-task-client.netlify.app',
+  'http://localhost:5173',
+];
+
+function corsOptionsDelegate(req, cb) {
+  const origin = req.header('Origin');
+  const allowed = !origin || allowlist.some((x) =>
+    x instanceof RegExp ? x.test(origin) : x === origin
+  );
+  cb(null, {
+    origin: allowed,
+    methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+}
+
 // Trust proxy
 if (config.trustProxy) {
   app.set('trust proxy', 1);
@@ -26,8 +43,13 @@ if (config.isProd) {
   app.use(morgan('dev'));
 }
 
+app.use(cors(corsOptionsDelegate));
+// 关键：让所有预检都返回 CORS 头
+app.options('*', cors(corsOptionsDelegate));
+
 // CORS
-app.use(cors(config.corsOptions));
+// app.use(cors(config.corsOptions));
+
 app.use(express.json());
 
 // Dependencies and routes
