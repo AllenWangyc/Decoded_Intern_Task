@@ -10,6 +10,7 @@ const originList = (process.env.CORS_ORIGINS || '')
 
 // Allow access by localhost
 originList.push('http://localhost:5173');
+originList.push('https://decoded-intern-task-client.netlify.app/')
 
 const corsOptions = isProd
   ? {
