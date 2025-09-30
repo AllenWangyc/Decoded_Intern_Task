@@ -45,7 +45,6 @@ if (config.isProd) {
 
 app.use(cors(corsOptionsDelegate));
 // 关键：让所有预检都返回 CORS 头
-app.options('*', cors(corsOptionsDelegate));
 
 // CORS
 // app.use(cors(config.corsOptions));
