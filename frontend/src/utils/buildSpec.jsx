@@ -1,7 +1,3 @@
-/**
- * 决定菜单类型：在本任务中只需要二选一（不做 hybrid）
- * 规则：存在至少 1 个角色 → 用 roles；否则若存在功能 → 用 features；再不行就 fallback 到 features
- */
 function decideMenuType(aiParsed = {}) {
   const roles = (aiParsed.roles || []).filter(Boolean);
   const features = (aiParsed.features || []).filter(Boolean);
@@ -11,16 +7,12 @@ function decideMenuType(aiParsed = {}) {
 }
 
 /**
- * 从 aiParsed.entityFields 生成前端表单规范数组
- * @param {object} aiParsed - 后端 AI 解析结果
- * 期望结构：
+ * 
+ * @param {object} aiParsed - AI parsed results
+ * Expected structure:
  *   aiParsed.entities: string[]
  *   aiParsed.entityFields: { [entityName]: Field[] }
  *   Field: { name, label, type, refEntity?, options? }
- *
- * 兜底策略：
- * - 若某实体没有给出字段，则生成 2 个通用字段（Name/Description）
- * - 字段仅做轻量规范化（去空、限制数量）
  */
 function buildForms(aiParsed = {}) {
   const entities = (aiParsed.entities || []).filter(Boolean);
@@ -30,7 +22,7 @@ function buildForms(aiParsed = {}) {
   entities.forEach((ent) => {
     const given = Array.isArray(fieldsMap[ent]) ? fieldsMap[ent] : [];
 
-    // 轻量清洗：去空、截断到 3 个字段
+    // Clean
     const cleaned = given
       .filter(Boolean)
       .slice(0, 3)
@@ -38,13 +30,10 @@ function buildForms(aiParsed = {}) {
         name: String(f.name || '').trim() || `${ent.toLowerCase()}_field`,
         label: String(f.label || '').trim() || 'Field',
         type: String(f.type || 'text').trim(),
-        // 仅当 type==='select' 时保留 refEntity（其合法性由后端已保证）
         ...(f.type === 'select' && f.refEntity ? { refEntity: f.refEntity } : {}),
-        // 若后端给了静态 options，这里原样透传
         ...(Array.isArray(f.options) ? { options: f.options } : {})
       }));
 
-    // 兜底：AI 未提供字段时，给一个非常小的通用表单
     const fallback =
       cleaned.length > 0
         ? cleaned
@@ -56,26 +45,15 @@ function buildForms(aiParsed = {}) {
     forms.push({
       entity: ent,
       fields: fallback,
-      ctaLabel: 'Save' // 默认文案；如用 features 菜单会在后面覆盖
+      ctaLabel: 'Save'
     });
   });
 
   return forms;
 }
 
-/**
- * 把 aiParsed 转换为前端可直接渲染的 uiSpec
- * uiSpec 结构：
- * {
- *   appName: string,
- *   menu: { type:'roles'|'features', items: string[] },
- *   forms: Array<{ entity, fields, ctaLabel }>,
- *   roleEntityMap: Record<string, string[]>,
- *   featureEntityMap: Record<string, string[]>
- * }
- */
 function buildUiSpec(aiParsed = {}) {
-  // 1) 基础字段规范化
+  // 1) Base field normalization
   const appName = aiParsed.appName || 'My App';
   const roles = (aiParsed.roles || []).filter(Boolean);
   const features = (aiParsed.features || []).filter(Boolean);
@@ -83,17 +61,16 @@ function buildUiSpec(aiParsed = {}) {
   const roleEntityMap = aiParsed.roleEntityMap || {};
   const featureEntityMap = aiParsed.featureEntityMap || {};
 
-  // 2) 决策菜单类型
+  // 2) Decide the menu type
   const menuType = decideMenuType(aiParsed);
   const menu =
     menuType === 'roles'
       ? { type: 'roles', items: roles }
       : { type: 'features', items: features };
 
-  // 3) 生成表单规范（直接使用 AI 返回的 entityFields）
+  // 3) Generated forms
   const forms = buildForms(aiParsed);
 
-  // 4) 如果菜单是 features：把命中的实体表单 CTA 文案改为该 feature（更贴合语义）
   if (menu.type === 'features') {
     (menu.items || []).forEach((feat) => {
       const entitiesForFeat = featureEntityMap[feat] || [];
@@ -106,7 +83,7 @@ function buildUiSpec(aiParsed = {}) {
     });
   }
 
-  // 5) 返回 uiSpec
+  // 5) return uiSpec
   return {
     appName,
     menu,            // { type, items }
@@ -117,10 +94,8 @@ function buildUiSpec(aiParsed = {}) {
 }
 
 /**
- * 根据当前选中的菜单项（label）和菜单类型，取出应该展示的实体列表
  * - roles 菜单：使用 roleEntityMap
  * - features 菜单：使用 featureEntityMap
- * - 兜底：返回空数组（由上层决定是否展示全部或空态）
  */
 function getEntitiesForSelection(uiSpec, selectedLabel) {
   if (!uiSpec || !selectedLabel) return [];

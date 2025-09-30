@@ -1,6 +1,5 @@
 import express from 'express';
 import { makeRequirementsRouter } from './requirements.route.js';
-// import { makeUsersRouter } from './users.routes.js';
 
 export function makeApiRouter(ai) {
   const router = express.Router();
@@ -8,9 +7,7 @@ export function makeApiRouter(ai) {
   // health check
   router.get('/health', (_req, res) => res.json({ ok: true }));
 
-  // 资源路由
-  router.use(makeRequirementsRouter(ai));  // /extract, /requirements...
-  // router.use(makeUsersRouter(deps));         // /users/me/requirements ...
+  router.use(makeRequirementsRouter(ai));
 
   return router;
 }
